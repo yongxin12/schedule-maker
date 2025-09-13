@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
       logout();
       toast.success('Logged out successfully');
       router.push('/');
-    } catch (error) {
+    } catch {
       // Even if logout fails on backend, clear local state
       logout();
       router.push('/');

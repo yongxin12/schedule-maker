@@ -4,7 +4,13 @@ import React, { createContext, useContext, useEffect } from 'react';
 import { useAuthStore } from '@/store/auth';
 import { authApi } from '@/services/auth';
 
-const AuthContext = createContext<{}>({});
+// Define a proper interface for the context
+interface AuthContextType {
+  // Add context methods if needed in the future
+  initialized?: boolean;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -27,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (isAuthenticated && user) {
           await authApi.me();
         }
-      } catch (error) {
+      } catch {
         // Token is invalid, clear auth state
         useAuthStore.getState().logout();
       } finally {
@@ -39,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [initializeAuth, isAuthenticated, user, setLoading]);
 
   return (
-    <AuthContext.Provider value={{}}>
+    <AuthContext.Provider value={{ initialized: true }}>
       {children}
     </AuthContext.Provider>
   );

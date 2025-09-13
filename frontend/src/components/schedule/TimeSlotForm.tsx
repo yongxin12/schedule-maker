@@ -75,7 +75,7 @@ export const TimeSlotForm: React.FC<TimeSlotFormProps> = ({
         setValue('color', editingSlot.color);
       } else if (initialData) {
         // Creating new slot
-        setValue('day', initialData.day as any);
+        setValue('day', initialData.day as 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday');
         setValue('startTime', initialData.time);
         setValue('color', COLOR_OPTIONS[0].value);
         // Set end time to 1 hour later
@@ -98,7 +98,7 @@ export const TimeSlotForm: React.FC<TimeSlotFormProps> = ({
         toast.success('Time slot added successfully!');
       }
       onClose();
-    } catch (error) {
+    } catch {
       toast.error('Something went wrong');
     }
   };

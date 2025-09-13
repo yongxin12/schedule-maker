@@ -29,13 +29,20 @@ export const RegisterForm: React.FC = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsLoading(true);
-      const { confirmPassword, ...registerData } = data;
+      // Extract confirmPassword but don't use it since it's handled by validation
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { confirmPassword: _, ...registerData } = data;
       const response = await authApi.register(registerData);
       login(response.user, response.tokens.access_token);
       toast.success('Account created successfully!');
       router.push('/dashboard');
-    } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Registration failed');
+    } catch (error: unknown) {
+      let errorMessage = 'Registration failed';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const responseError = error as { response?: { data?: { detail?: string } } };
+        errorMessage = responseError.response?.data?.detail || 'Registration failed';
+      }
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

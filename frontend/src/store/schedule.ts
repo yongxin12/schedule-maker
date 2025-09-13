@@ -29,7 +29,7 @@ const defaultColors = [
   '#06B6D4', '#84CC16', '#F97316', '#EC4899', '#6366F1'
 ];
 
-export const useScheduleStore = create<ScheduleState>((set, get) => ({
+export const useScheduleStore = create<ScheduleState>((set) => ({
   timeSlots: [],
   selectedSlot: null,
   isEditing: false,

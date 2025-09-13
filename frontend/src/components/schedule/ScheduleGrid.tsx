@@ -79,7 +79,7 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({ onSlotClick }) => {
           </div>
 
           {/* Day Columns */}
-          {DAYS.map((day, dayIndex) => (
+          {DAYS.map((day) => (
             <div key={day} className="relative border-r last:border-r-0">
               {/* Background grid cells */}
               {TIME_SLOTS.map((time) => (

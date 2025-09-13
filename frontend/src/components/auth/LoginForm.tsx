@@ -33,8 +33,13 @@ export const LoginForm: React.FC = () => {
       login(response.user, response.tokens.access_token);
       toast.success('Successfully logged in!');
       router.push('/dashboard');
-    } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'Login failed');
+    } catch (error: unknown) {
+      let errorMessage = 'Login failed';
+      if (error && typeof error === 'object' && 'response' in error) {
+        const responseError = error as { response?: { data?: { detail?: string } } };
+        errorMessage = responseError.response?.data?.detail || 'Login failed';
+      }
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +86,7 @@ export const LoginForm: React.FC = () => {
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               href="/register"
               className="font-medium text-blue-600 hover:text-blue-500"
